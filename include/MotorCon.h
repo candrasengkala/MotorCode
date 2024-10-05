@@ -30,7 +30,10 @@ class Motor
     int pos = 0;
     int posdeg=0;
     int posrad=0;
-    Motor(uint8_t A, uint B, uint8_t C, uint8_t D, bool E, bool F, int ppr){
+    int pos_i = 0;
+    int vel_i = 0;
+    Motor(uint8_t A, uint B, uint8_t C, uint8_t D, bool E, bool F, int ppr){ /*
+    A adalah enc A, enc B, lrpwmpin, rpwmpin, lenpin, renpin, pprval*/
         enc_pin_A = A;
         enc_pin_B = B;
         l_pwm_pin = C;
@@ -40,20 +43,20 @@ class Motor
         pprval = ppr;
     }
     
-    Motor(uint8_t A, uint B, uint8_t C, uint8_t D){ //L_EN and R_EN is HIGH by default.
+    Motor(int A, uint B, uint8_t C, uint8_t D, uint8_t E, uint8_t F){ //L_EN and R_EN is HIGH by default.
         enc_pin_A = A;
         enc_pin_B = B;
         l_pwm_pin = C;
         r_pwm_pin = D;
-        l_en_pin = true;
-        r_en_pin = true;
+        l_en_pin = E;
+        r_en_pin = F;
         pprval = 700; //default value is set for PG28 magnetic internal encoder ppr value
     }
     int enc_reading_pos();
     void change_EN_val(bool r, bool l);
     void move(uint8_t pwmr, uint8_t pwml);
     void move_stop();
-    void move_until_speed(uint8_t pwmr, uint8_t pwml, uint16_t speed, int timebegin); //move until motor reaches ceratin PWM.
+    void move_in_speed(uint16_t speed); //move until motor reaches ceratin PWM.
     void move_until_deg(uint8_t pwmr, uint8_t pwml, uint16_t deg);
 };
 
@@ -83,37 +86,30 @@ int Motor::enc_reading_pos(){ //DO NOT FORGET TO ATTACHINTERRUPT
         increment = -1;
     }
     pos+=increment;
-    posdeg = pos/700*360;
-    posrad = (pos/700)*2*pi;
+
+    return pos;
 }
 
 void Motor::move_until_deg(uint8_t pwmr, uint8_t pwml, uint16_t deg){
-    int motorpos = enc_reading_pos();
+    int motorpos = enc_reading_pos(); //deg is in reading
     while(motorpos<deg){
         move(pwmr, pwml);
     }
 }
 
-void Motor::move_until_speed(uint16_t speed, int timebegin){ //move until yeah, a certain RPM.
-    int b = digitalRead(enc_pin_B);
-    int increment = 0;
-    uint16_t vel = 0;
-    //checkdirection part
-    if(b == true){
-        increment = 1;
-    }
-    else{
-        increment = -1;
-    }
-    pos = pos + increment;
-
-    //returned speed is in pulse per second
-    long currT = micros();
-    float deltaT = ((float) (currT - timebegin))/10^6;
-
-    int velocity_i = increment/deltaT;
-    prevT_i = currT;
-    while (velocity < speed){   
-        move(pwmr, pwml);
-    }
-}
+void Motor::move_in_speed(uint16_t speed){ //move until yeah, a certain pulse per second.
+    //dipanggil saat attachinterrupt terjadi.
+    
+    uint16_t speedtarg = speed; 
+    /*
+    When encoder B is HIGH, STM32 Blue Pill is going to be interrupted. 
+        1. Baca encoder
+        2. Bila kurang, naikkan PWM
+        3. Bila kelebihan, turunkan PWM
+    This function measures time by its won. Speed is in encoder reading per second.
+    */
+    noInterrupts(); //no interrupt while measuring speed.
+    pos =  enc_reading_pos();
+    
+    
+} 
