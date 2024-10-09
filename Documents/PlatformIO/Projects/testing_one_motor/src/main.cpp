@@ -30,16 +30,19 @@ void setup() {
 
 
   pinMode(LED_BUILTIN, OUTPUT);
-
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  analogWrite(Kiri_LPWM, 255);
-  delay(1000);                      // wait for a second
+  analogWrite(Kiri_LPWM, 100);
+  delay(300);        
   analogWrite(Kiri_LPWM, 0);
-  delay(100);                      // wait for a second
-
+  delay(300);
+  analogWrite(Kiri_RPWM, 100);
+  delay(300);        
+  analogWrite(Kiri_RPWM, 0);
+  delay(300);
+  // put your main code here, to run repeatedly:
+// wait for a second
 }
 
 // put function definitions here:
