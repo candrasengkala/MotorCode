@@ -1,0 +1,3 @@
+Pada 2, amati bahwa fungsi f memiliki parameter dengan nilai default.
+Maknanya, jika fungsi dipanggil tanpa memasukkan parameter, maka keluaran akan beruba nilai default (a=5).
+Const menandakan bahwa parameter (baik default ataupun tidak) nilainya tidak dapat diubah dalam fungsi.

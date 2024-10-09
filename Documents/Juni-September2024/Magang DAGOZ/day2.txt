@@ -1,0 +1,41 @@
+C++ vs Python
+1.  C++ is faster
+2. C++ way of working:
+        - Preprocessing
+        - Compilation
+        - Linking
+pointer itu nanti kita bisa sebuah fungsi mengubah value benar2 dididi value yang dimasukin
+nanti ada passingby referance, passingby value
+
+memory allocation.
+
+OOP (Object-Oriented Programming)
+OOP is about creating objects that contain both data and functions.
+
+why?
+faster and easier to execute
+provides a cleasr structure for the programs
+good for large scale projects
+
+OOP itu untuk large scaleEasier to maintain, modify and debug.
+
+OOP is EASY TO modify
+
+Visibility of Objects in CPP:
+    1. Public       :properties that is not innate (Accesible by other objects [instances of class] and is changable by the,.)
+    2. Private      :innate properties. only changable by the object itself
+    3. Protected    :only the same class can inherit.
+
+
+Struct -> declare property as public by default.
+struct: visibilitynya pasti public by default
+tidak bisa ada inheritance ()
+
+Class inheritance:
+    misal ada robot nih, sebuah class (like, human). and then instances of human is ("rizmi")
+    inheritance: misal nanti ditambahin fungsinya, ada robot yg begini, ada robot yang begitu
+    dicabangin.
+
+    Inheritance bisa dijelaskan hubungan antarclassnya seperti apa.
+
+constructor and destructor1
